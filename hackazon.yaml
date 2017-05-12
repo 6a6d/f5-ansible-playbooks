@@ -1,0 +1,61 @@
+---
+
+- name: Create the Hackazon VIP, pool, pool members and nodes
+  hosts: bigip13
+  connection: local
+
+  tasks:
+      - name: Create the Hackazon pool 
+        bigip_pool:
+            lb_method: "ratio_member"
+            name: "hackazon_pool"
+            password: "admin"
+            server: "bigip13"
+            slow_ramp_time: "120"
+            user: "admin"
+            monitors: tcp
+            validate_certs: "no"
+        delegate_to: localhost
+
+      - name: Create the Hackazon node
+        bigip_node:
+            host: "10.1.20.20"
+            name: "hackazon_node"
+            password: "admin"
+            server: "bigip13"
+            user: "admin"
+            validate_certs: "no"
+        delegate_to: localhost
+
+      - name: Add the Hackazon node to pool
+        bigip_pool_member:
+            description: "hackazon_pool"
+            host: "{{ item.host }}"
+            name: "{{ item.name }}"
+            password: "admin"
+            pool: "hackazon_pool"
+            port: "80"
+            server: "bigip13"
+            user: "admin"
+            validate_certs: "no"
+        delegate_to: localhost
+        with_items:
+            - host: "10.1.20.20"
+              name: "hackazon_node"
+
+      - name: Create the Hackazon VIP
+        bigip_virtual_server:
+            description: "hackazon_vs"
+            destination: "10.1.10.20"
+            password: "admin"
+            name: "hackazon_vs"
+            pool: "hackazon_pool"
+            port: "80"
+            server: "bigip13"
+            snat: "Automap"
+            user: "admin"
+            all_profiles:
+                - "http"
+                - "clientssl"
+            validate_certs: "no"
+        delegate_to: localhost
