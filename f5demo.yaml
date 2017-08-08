@@ -1,7 +1,7 @@
 ---
 
 - name: Create the f5 Demo VIP, pool, pool members and nodes
-  hosts: bigip13
+  hosts: bigip
   connection: local
 
   tasks:

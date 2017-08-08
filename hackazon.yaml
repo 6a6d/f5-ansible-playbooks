@@ -1,7 +1,7 @@
 ---
 
 - name: Create the Hackazon VIP, pool, pool members and nodes
-  hosts: bigip13
+  hosts: bigip
   connection: local
 
   tasks:

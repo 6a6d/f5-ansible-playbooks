@@ -1,14 +1,14 @@
 ---
 
 - name: Create a VIP, pool, pool members and nodes
-  hosts: bigip12
+  hosts: bigip
   connection: local
 
   tasks:
       - name: BIGIP F5 | Create HTTP Monitor
         bigip_monitor_http:
             state: "present"
-            server: "bigip12"
+            server: "bigip"
             user: "admin"
             password: "admin"
             name: "my_http_monitor"

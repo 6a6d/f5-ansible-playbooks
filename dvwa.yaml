@@ -1,7 +1,7 @@
 ---
 
 - name: Create the DVWA VIP, pool, pool members and nodes
-  hosts: bigip12
+  hosts: bigip
   connection: local
 
   tasks:
@@ -10,7 +10,7 @@
             lb_method: "ratio_member"
             name: "dvwa_pool"
             password: "admin"
-            server: "bigip12"
+            server: "bigip"
             slow_ramp_time: "120"
             user: "admin"
             validate_certs: "no"
@@ -21,7 +21,7 @@
             host: "10.1.20.17"
             name: "dvwa_node"
             password: "admin"
-            server: "bigip12"
+            server: "bigip"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -34,7 +34,7 @@
             password: "admin"
             pool: "dvwa_pool"
             port: "80"
-            server: "bigip12"
+            server: "bigip"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -50,7 +50,7 @@
             name: "dvwa_vs"
             pool: "dvwa_pool"
             port: "80"
-            server: "bigip12"
+            server: "bigip"
             snat: "Automap"
             user: "admin"
             all_profiles:

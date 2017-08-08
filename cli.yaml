@@ -1,6 +1,6 @@
 vars:
   cli:
-    host: "192.168.2.118"
+    host: bigip
     username: admin
     password: admin
     transport: cli
