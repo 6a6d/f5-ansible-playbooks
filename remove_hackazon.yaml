@@ -1,7 +1,7 @@
 ---
 
 - name: Remove the Hackazon VIP, pool, pool members and nodes
-  hosts: bigip
+  hosts: bigipa
   connection: local
 
   tasks:
@@ -13,7 +13,7 @@
             name: "hackazon_vs"
             pool: "hackazon_pool"
             port: "80"
-            server: "bigip"
+            server: "bigipa"
             snat: "Automap"
             user: "admin"
             all_profiles:
@@ -28,7 +28,7 @@
             lb_method: "ratio_member"
             name: "hackazon_pool"
             password: "admin"
-            server: "bigip"
+            server: "bigipa"
             slow_ramp_time: "120"
             user: "admin"
             validate_certs: "no"
@@ -39,7 +39,7 @@
         bigip_node:
             name: "hackazon_node"
             password: "admin"
-            server: "bigip"
+            server: "bigipa"
             user: "admin"
             validate_certs: "no"
             state: "absent"
