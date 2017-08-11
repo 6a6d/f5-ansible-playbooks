@@ -1,7 +1,7 @@
-:---
+---
 
 - name: Remove the webtop VIP, pool, pool members and nodes
-  hosts: "{{ hosts }}"
+  hosts: "{{ nodes }}"
   connection: local
 
   tasks:
@@ -12,7 +12,7 @@
             password: "admin"
             name: "webtop_vs"
             port: "443"
-            server: "{{ hosts }}"
+            server: "{{ nodes }}"
             snat: "Automap"
             user: "admin"
             all_profiles:
