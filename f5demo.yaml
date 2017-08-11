@@ -1,7 +1,7 @@
 ---
 
 - name: Create the f5 Demo VIP, pool, pool members and nodes
-  hosts: bigip
+  hosts: bigipa
   connection: local
 
   tasks:
@@ -10,7 +10,7 @@
             lb_method: "ratio_member"
             name: "f5demo_pool"
             password: "admin"
-            server: "bigip13"
+            server: "bigipa"
             slow_ramp_time: "120"
             user: "admin"
             monitors: http
@@ -22,7 +22,7 @@
             host: "10.1.20.11"
             name: "f5demo_node-1"
             password: "admin"
-            server: "bigip13"
+            server: "bigipa"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -32,7 +32,7 @@
             host: "10.1.20.12"
             name: "f5demo_node-2"
             password: "admin"
-            server: "bigip13"
+            server: "bigipa"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -42,7 +42,7 @@
             host: "10.1.20.13"
             name: "f5demo_node-3"
             password: "admin"
-            server: "bigip13"
+            server: "bigipa"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -52,7 +52,7 @@
             host: "10.1.20.14"
             name: "f5demo_node-4"
             password: "admin"
-            server: "bigip13"
+            server: "bigipa"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -62,7 +62,7 @@
             host: "10.1.20.15"
             name: "f5demo_node-5"
             password: "admin"
-            server: "bigip13"
+            server: "bigipa"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -75,7 +75,7 @@
             password: "admin"
             pool: "f5demo_pool"
             port: "80"
-            server: "bigip13"
+            server: "bigipa"
             user: "admin"
             validate_certs: "no"
         delegate_to: localhost
@@ -99,7 +99,7 @@
             name: "f5demo_vs"
             pool: "f5demo_pool"
             port: "80"
-            server: "bigip13"
+            server: "bigipa"
             snat: "Automap"
             user: "admin"
             all_profiles:
