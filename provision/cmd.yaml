@@ -1,0 +1,16 @@
+---
+
+- name: Run command on BIG-IP
+  hosts: "{{ bigip }}"
+  connection: local
+
+  tasks:
+    - name: run show version on remote devices
+      bigip_command:
+        commands: tmsh show sys version
+        server: "{{ bigip }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: no 
+      delegate_to: localhost
+

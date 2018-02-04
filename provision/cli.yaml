@@ -9,7 +9,7 @@
       bigip_command:
         commands: show sys version
         server: bigipa
-        password: admin
-        user: admin
+        user: "{{ username }}"
+        password: "{{ password }}"
         validate_certs: no
       delegate_to: localhost

@@ -7,13 +7,14 @@
   tasks:
       - name: Create the Hackazon pool
         bigip_pool:
-            lb_method: "ratio_member"
             name: "hackazon_pool"
+            user: "admin"
             password: "admin"
             server: "bigipa"
             slow_ramp_time: "120"
-            user: "admin"
-            monitors: tcp
+            lb_method: least-connections-node
+            monitor_type: and_list
+            monitors: http
             validate_certs: "no"
         delegate_to: localhost
 
@@ -56,6 +57,5 @@
             user: "admin"
             all_profiles:
                 - "http"
-                - "clientssl"
             validate_certs: "no"
         delegate_to: localhost

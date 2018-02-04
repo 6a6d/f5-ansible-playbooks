@@ -101,6 +101,7 @@ ENV/
 
 # python virtual env
 ansible2.3.1/
+python*
 
 # ansible
 *.retry

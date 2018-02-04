@@ -9,8 +9,8 @@
         bigip_monitor_http:
             state: "present"
             server: "bigipa"
-            user: "admin"
-            password: "admin"
+            user: "root"
+            password: "default"
             name: "my_http_monitor"
             send: "GET /\r\n"
             receive: ""
