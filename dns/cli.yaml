@@ -1,13 +1,13 @@
 ---
 
 - name: Run command on BIG-IP
-  hosts: "{{ bigip }}"
+  hosts: all
   connection: local
 
   tasks:
     - name: tmsh show sys version
       bigip_command:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         commands: tmsh show sys version
