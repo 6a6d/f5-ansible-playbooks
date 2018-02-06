@@ -1,13 +1,13 @@
 ---
 
 - name: Provision a BIG-IP module
-  hosts: "{{ bigip }}"
+  hosts: all
   connection: local
 
   tasks:
     - name: Change "{{ state }}" state of "{{ module }}" module with level "{{ level }}"
       bigip_provision:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         module: "{{ module }}"

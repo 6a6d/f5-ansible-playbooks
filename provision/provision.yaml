@@ -1,13 +1,13 @@
 ---
 
 - name: Provision a new BIG-IP
-  hosts: "{{ bigip }}"
+  hosts: all
   connection: local
 
   tasks:
     - name: Set the hostname of the BIG-IP
       bigip_hostname:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         hostname: "{{ bigip }}".lab.local
@@ -16,7 +16,7 @@
 
     - name: Create Internal VLAN
       bigip_vlan:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         name: "internal"
@@ -26,7 +26,7 @@
 
     - name: Create Internal Self IP
       bigip_selfip:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         vlan: "internal"
@@ -38,7 +38,7 @@
 
     - name: Create External VLAN
       bigip_vlan:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         name: "external"
@@ -48,7 +48,7 @@
 
     - name: Create External Self IP
       bigip_selfip:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         name: "external"
@@ -60,7 +60,7 @@
 
     - name: Provision LTM
       bigip_provision:
-        server: "{{ bigip }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         module: ltm

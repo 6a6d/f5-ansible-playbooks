@@ -1,0 +1,15 @@
+---
+
+- name: Update license on a BIG-IP
+  hosts: all
+  connection: local
+
+  tasks:
+    - name: Update the current license of the BIG-IP
+      bigip_license:
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        key: "XXXXX-XXXXX-XXXXX-XXXXX-XXXXXXX"
+        state: "latest"
+      delegate_to: localhost

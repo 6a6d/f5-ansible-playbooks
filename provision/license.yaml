@@ -1,15 +1,14 @@
 ---
 
-- name: Run command on BIG-IP
+- name: License a BIG-IP
   hosts: all
   connection: local
 
   tasks:
-    - name: run show version on remote devices
-      bigip_command:
+    - name: License BIG-IP using a key
+      bigip_license:
         server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
-        commands: tmsh show sys version
-        validate_certs: no 
+        key: "XXXXX-XXXXX-XXXXX-XXXXX-XXXXXXX"
       delegate_to: localhost
