@@ -98,7 +98,6 @@ ENV/
 # mypy
 .mypy_cache/
 
-
 # python virtual env
 ansible2.3.1/
 python*
@@ -106,3 +105,6 @@ python*
 # ansible
 *.retry
 hosts
+
+# VS Code
+settings.json
