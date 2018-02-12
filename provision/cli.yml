@@ -5,7 +5,7 @@
   connection: local
 
   tasks:
-    - name: run show version on remote devices
+    - name: tmsh show sys version
       bigip_command:
         server: "{{ inventory_hostname }}"
         user: "{{ username }}"
@@ -13,3 +13,7 @@
         commands: tmsh show sys version
         validate_certs: no 
       delegate_to: localhost
+      register: tmsh
+
+    - debug: 
+        var: tmsh.stdout_lines
