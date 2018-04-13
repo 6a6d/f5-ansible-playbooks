@@ -1,19 +1,19 @@
 ---
 
 - name: Run command on BIG-IP
-  hosts: all
+  hosts: bigipa
   connection: local
 
   tasks:
     - name: tmsh show sys version
       bigip_command:
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        commands: tmsh show sys version
-        validate_certs: no 
+        commands: show sys version
+        server: bigipa
+        password: admin
+        user: admin
+        validate_certs: no
       delegate_to: localhost
-      register: tmsh
+      register: show
 
     - debug: 
-        var: tmsh.stdout_lines
+        var: show.stdout_lines

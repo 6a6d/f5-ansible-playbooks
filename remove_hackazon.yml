@@ -8,29 +8,30 @@
       - name: Remove the Hackazon VIP
         bigip_virtual_server:
             description: "hackazon_vs"
-            destination: "10.1.10.17"
-            password: "admin"
+            destination: "10.1.10.20"
+            password: "{{ password }}"
             name: "hackazon_vs"
             pool: "hackazon_pool"
             port: "80"
-            server: "bigipa"
+            server: "{{ inventory_hostname }}"
             snat: "Automap"
-            user: "admin"
+            user: "{{ username }}"
             all_profiles:
                 - "http"
-                - "clientssl"
             validate_certs: "no"
             state: "absent"
         delegate_to: localhost
 
       - name: Remove the Hackazon pool
         bigip_pool:
-            lb_method: "ratio_member"
             name: "hackazon_pool"
-            password: "admin"
-            server: "bigipa"
+            user: "{{ username }}"
+            password: "{{ password }}"
+            server: "{{ inventory_hostname }}"
             slow_ramp_time: "120"
-            user: "admin"
+            lb_method: least-connections-node
+            monitor_type: and_list
+            monitors: http
             validate_certs: "no"
             state: "absent"
         delegate_to: localhost
@@ -38,9 +39,19 @@
       - name: Remove hackazon_node
         bigip_node:
             name: "hackazon_node"
-            password: "admin"
-            server: "bigipa"
-            user: "admin"
+            user: "{{ username }}"
+            password: "{{ password }}"
+            server: "{{ inventory_hostname }}"
+            validate_certs: "no"
+            state: "absent"
+        delegate_to: localhost
+
+      - name: Remove hackazon_node 2
+        bigip_node:
+            name: "hackazon_node2"
+            user: "{{ username }}"
+            password: "{{ password }}"
+            server: "{{ inventory_hostname }}"
             validate_certs: "no"
             state: "absent"
         delegate_to: localhost

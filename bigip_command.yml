@@ -1,21 +1,21 @@
 ---
 
-- name: Run command on BIG-IP
+- name: Run a command on BIG-IP
   hosts: bigipa
   connection: local
-  
+
   tasks:
-    - name: tmsh show sys version
+    - name: show sys version
       bigip_command:
-        server: "{{ inventory_hostname }}"
+        server: "{{ ansible_host }}"
         user: "{{ username }}"
         password: "{{ password }}"
         validate_certs: "{{ validate_certs }}"
-        commands: 
+        transport: rest
+        commands:
           - show sys version
-          - list ltm virtual
       delegate_to: localhost
-      register: tmsh
+      register: show
 
     - debug: 
-        var: tmsh.stdout_lines
+        var: show.stdout_lines
