@@ -8,10 +8,10 @@
     - name: tmsh show sys version
       bigip_command:
         commands: show sys version
-        server: bigipa
-        password: admin
-        user: admin
-        validate_certs: no
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        validate_certs: "{{ validate_certs }}"
       delegate_to: localhost
       register: show
 

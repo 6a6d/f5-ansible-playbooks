@@ -1,15 +1,16 @@
 ---
 
-- name: Update license on a BIG-IP
-  hosts: all
+- name: Create a VIP, pool, pool members and nodes
+  hosts: bigipa
   connection: local
 
   tasks:
-    - name: Update the current license of the BIG-IP
-      bigip_license:
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        key: "XXXXX-XXXXX-XXXXX-XXXXX-XXXXXXX"
-        state: "latest"
-      delegate_to: localhost
+      - name: License a BIG-IP
+        bigip_license:
+            server: "{{ inventory_hostname }}"
+            server_port: "{{ bigip_port }}"
+            user: "{{ username }}"
+            password: "{{ password }}"
+            key: "{{ bigip_license }}"
+            validate_certs: "{{ validate_certs }}"
+        delegate_to: localhost

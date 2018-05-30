@@ -7,7 +7,7 @@
   tasks:
     - name: show sys version
       bigip_command:
-        server: "{{ ansible_host }}"
+        server: "{{ inventory_hostname }}"
         user: "{{ username }}"
         password: "{{ password }}"
         validate_certs: "{{ validate_certs }}"
