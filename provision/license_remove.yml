@@ -1,6 +1,6 @@
 ---
 
-- name: Remove license on a BIG-IP
+- name: Remove license from BIG-IP
   hosts: all
   connection: local
 
