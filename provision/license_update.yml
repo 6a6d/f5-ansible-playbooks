@@ -1,16 +1,13 @@
 ---
 
 - name: License BIG-IP
-  hosts: bigipa
+  hosts: new-bigip
   connection: local
 
   tasks:
-    - name: License a BIG-IP
+    - name: License the BIG-IP
       bigip_license:
-        server: "{{ inventory_hostname }}"
-        server_port: "{{ bigip_port }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
-        key: "{{ bigip_license }}"
-        validate_certs: "{{ validate_certs }}"
+        key: "{{ key }}"
+        state: "latest"
+        provider: "{{ login_info }}"
       delegate_to: localhost

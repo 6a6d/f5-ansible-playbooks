@@ -7,13 +7,10 @@
   tasks:
     - name: tmsh show sys version
       bigip_command:
-        server: "{{ inventory_hostname }}"
-        user: "{{ username }}"
-        password: "{{ password }}"
         commands: tmsh show sys version
-        validate_certs: no 
+        provider: "{{ login_info }}"
       delegate_to: localhost
       register: tmsh
 
-    - debug: 
+    - debug:
         var: tmsh.stdout_lines

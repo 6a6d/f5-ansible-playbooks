@@ -12,9 +12,16 @@
         provider: "{{ login_info }}"
       delegate_to: localhost
 
+    - name: License the BIG-IP
+      bigip_license:
+        key: "{{ key }}"
+        state: present
+        provider: "{{ login_info }}"
+      delegate_to: localhost
+
     - name: Set the hostname of the BIG-IP
       bigip_hostname:
-        hostname: "{{ bigip }}.lab.local"
+        hostname: "{{ host }}.lab.local"
         provider: "{{ login_info }}"
       delegate_to: localhost
 
@@ -57,7 +64,7 @@
         provider: "{{ login_info }}"
       delegate_to: localhost
 
-    - name: Provision AVR 
+    - name: Provision AVR
       bigip_provision:
         module: avr
         level: nominal
