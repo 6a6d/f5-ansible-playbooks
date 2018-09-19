@@ -1,0 +1,13 @@
+---
+
+- name: Enable iApps LX
+  hosts: new-bigip
+  connection: local
+
+  tasks:
+    - name: Enable iApps LX
+      file:
+        path: /var/config/rest/iapps/enable
+        state: touch
+        mode: 0644
+      delegate_to: localhost
