@@ -8,34 +8,25 @@
       - name: Create the Hackazon pool
         bigip_pool:
             name: "hackazon_pool"
-            user: "{{ username }}"
-            password: "{{ password }}"
-            server: "{{ inventory_hostname }}"
             slow_ramp_time: "120"
             lb_method: least-connections-node
             monitor_type: and_list
             monitors: http
-            validate_certs: "no"
+            provider: "{{ login_info }}"
         delegate_to: localhost
 
       - name: Create the Hackazon node
         bigip_node:
             host: "10.1.20.20"
             name: "hackazon_node"
-            password: "{{ password }}"
-            server: "{{ inventory_hostname }}"
-            user: "{{ username }}"
-            validate_certs: "no"
+            provider: "{{ login_info }}"
         delegate_to: localhost
 
       - name: Create the Hackazon node 2
         bigip_node:
             host: "10.1.20.21"
             name: "hackazon_node2"
-            password: "{{ password }}"
-            server: "{{ inventory_hostname }}"
-            user: "{{ username }}"
-            validate_certs: "no"
+            provider: "{{ login_info }}"
         delegate_to: localhost
 
       - name: Add the Hackazon node to pool
@@ -43,12 +34,9 @@
             description: "hackazon_pool"
             host: "{{ item.host }}"
             name: "{{ item.name }}"
-            password: "{{ password }}"
             pool: "hackazon_pool"
             port: "80"
-            server: "{{ inventory_hostname }}"
-            user: "{{ username }}"
-            validate_certs: "no"
+            provider: "{{ login_info }}"
         delegate_to: localhost
         with_items:
             - host: "10.1.20.20"
@@ -60,14 +48,11 @@
         bigip_virtual_server:
             description: "hackazon_vs"
             destination: "10.1.10.20"
-            password: "{{ password }}"
             name: "hackazon_vs"
             pool: "hackazon_pool"
             port: "80"
-            server: "{{ inventory_hostname }}"
             snat: "Automap"
-            user: "{{ username }}"
             all_profiles:
                 - "http"
-            validate_certs: "no"
+            provider: "{{ login_info }}"
         delegate_to: localhost
