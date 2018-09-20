@@ -77,3 +77,6 @@
         level: nominal
         provider: "{{ login_info }}"
       delegate_to: localhost
+
+    - name: Build Hackazon
+      import_playbook: ../hackazon.yml
