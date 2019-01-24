@@ -1,0 +1,5 @@
+- name: Set the hostname of the BIG-IP
+  bigip_hostname:
+    hostname: "{{ host }}.lab.local"
+    provider: "{{ login_info }}"
+  delegate_to: localhost

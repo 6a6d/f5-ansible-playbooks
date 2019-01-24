@@ -3,7 +3,7 @@
   - name: Provision a new BIG-IP
     hosts: all
     connection: local
-  
+
     tasks:
       - name: Disable GUI setup
         bigip_sys_global:
@@ -13,7 +13,7 @@
           gui_setup: "disabled"
           state: present
         delegate_to: localhost
-  
+
       - name: Set the hostname of the BIG-IP
         bigip_hostname:
           server: "{{ inventory_hostname }}"
@@ -22,7 +22,7 @@
           hostname: "{{ bigip }}".lab.local
           validate_certs: "no"
         delegate_to: localhost
-  
+
       - name: Create External VLAN
         bigip_vlan:
           server: "{{ inventory_hostname }}"
@@ -32,7 +32,7 @@
           untagged_interfaces: "1.1"
           validate_certs: "no"
         delegate_to: localhost
-  
+
       - name: Create External Self IP
         bigip_selfip:
           server: "{{ inventory_hostname }}"
@@ -48,7 +48,7 @@
             - tcp:8443
           validate_certs: "no"
         delegate_to: localhost
-  
+
       - name: Provision LTM
         bigip_provision:
           server: "{{ inventory_hostname }}"
@@ -58,4 +58,3 @@
           level: nominal
           validate_certs: no
         delegate_to: localhost
-  

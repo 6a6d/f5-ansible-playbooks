@@ -108,3 +108,6 @@ hosts
 
 # VS Code
 settings.json
+
+# tmp
+tmp/
