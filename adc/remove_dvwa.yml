@@ -1,5 +1,4 @@
 ---
-
 - name: Remove the DVWA VIP, pool, pool members and nodes
   hosts: bigipa
   connection: local

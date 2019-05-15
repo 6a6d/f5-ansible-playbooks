@@ -1,8 +1,17 @@
 ---
-
 - name: Create the Hackazon VIP, pool, pool members and nodes
-  hosts: new-bigip
+  hosts: ltm1
   connection: local
+
+  vars_prompt:
+  - name: "username"
+    default: "admin"
+    prompt: "username"
+    private: no
+  - name: "password"
+    default: "admin"
+    prompt: "passwd"
+    private: yes
 
   tasks:
       - name: Create the Hackazon pool
@@ -15,16 +24,16 @@
             provider: "{{ login_info }}"
         delegate_to: localhost
 
-      - name: Create the Hackazon node
+      - name: Create the Hackazon node 1
         bigip_node:
-            host: "10.1.20.20"
-            name: "hackazon_node"
+            host: "10.1.20.200"
+            name: "hackazon_node1"
             provider: "{{ login_info }}"
         delegate_to: localhost
 
       - name: Create the Hackazon node 2
         bigip_node:
-            host: "10.1.20.21"
+            host: "10.1.20.201"
             name: "hackazon_node2"
             provider: "{{ login_info }}"
         delegate_to: localhost
@@ -39,15 +48,15 @@
             provider: "{{ login_info }}"
         delegate_to: localhost
         with_items:
-            - host: "10.1.20.20"
-              name: "hackazon_node"
-            - host: "10.1.20.21"
-              name: "hackazon_node"
+            - host: "10.1.20.200"
+              name: "hackazon_node1"
+            - host: "10.1.20.201"
+              name: "hackazon_node2"
 
       - name: Create the Hackazon VIP
         bigip_virtual_server:
             description: "hackazon_vs"
-            destination: "10.1.10.20"
+            destination: "10.1.10.200"
             name: "hackazon_vs"
             pool: "hackazon_pool"
             port: "80"

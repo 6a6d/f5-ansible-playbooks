@@ -1,5 +1,4 @@
 ---
-
 - name: Remove license from BIG-IP
   hosts: all
   connection: local

@@ -107,7 +107,7 @@ python*
 hosts
 
 # VS Code
-settings.json
+.vscode/
 
 # tmp
 tmp/

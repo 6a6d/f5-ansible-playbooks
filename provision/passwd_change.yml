@@ -1,5 +1,4 @@
 ---
-
 - name: Change local user passwords on BIG-IP
   hosts: all
   connection: local

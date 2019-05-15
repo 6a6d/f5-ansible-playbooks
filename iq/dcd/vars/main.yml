@@ -1,0 +1,18 @@
+provider_server: localhost
+provider_server_port: 443
+provider_user: admin
+provider_password: admin
+provider_validate_certs: false
+provider_transport: rest
+provider_timeout: 120
+register_dcd_dcd_user: admin
+register_dcd_dcd_password: admin
+register_dcd_dcd_server: localhost
+register_dcd_dcd_listener: localhost
+register_dcd_cm_server: 192.168.1.149
+register_dcd_cm_password: admin
+register_dcd_dcd_services:
+  - access
+  - dos
+  - afm
+  - asm

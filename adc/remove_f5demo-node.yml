@@ -1,5 +1,4 @@
 ---
-
 - name: Remove single nodes
   hosts: "{{ bigip }}"
   connection: local

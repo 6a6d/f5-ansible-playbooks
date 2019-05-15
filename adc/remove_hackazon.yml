@@ -1,14 +1,13 @@
 ---
-
 - name: Remove the Hackazon VIP, pool, pool members and nodes
-  hosts: bigipa
+  hosts: ltm1
   connection: local
 
   tasks:
       - name: Remove the Hackazon VIP
         bigip_virtual_server:
             description: "hackazon_vs"
-            destination: "10.1.10.20"
+            destination: "10.1.1.20"
             password: "{{ password }}"
             name: "hackazon_vs"
             pool: "hackazon_pool"
@@ -38,7 +37,7 @@
 
       - name: Remove hackazon_node
         bigip_node:
-            name: "hackazon_node"
+            name: "hackazon_node1"
             user: "{{ username }}"
             password: "{{ password }}"
             server: "{{ inventory_hostname }}"

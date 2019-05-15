@@ -1,0 +1,21 @@
+- name: Update password for admin user
+  bigip_user:
+    server: "{{ inventory_hostname }}"
+    user: "{{ username }}"
+    password: "{{ password }}"
+    username_credential: admin
+    password_credential: P@$$w0rdP@$$w0rd
+    state: present
+    validate_certs: no
+  delegate_to: localhost
+
+- name: Update password for root user
+  bigip_user:
+    server: "{{ inventory_hostname }}"
+    user: "{{ username }}"
+    password: "{{ password }}"
+    username_credential: root
+    password_credential: P@$$w0rdP@$$w0rd
+    state: present
+    validate_certs: no
+  delegate_to: localhost
