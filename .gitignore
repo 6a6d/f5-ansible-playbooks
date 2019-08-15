@@ -111,3 +111,9 @@ hosts
 
 # tmp
 tmp/
+
+# rpms
+*.rpm
+
+# Ansible roles
+roles/

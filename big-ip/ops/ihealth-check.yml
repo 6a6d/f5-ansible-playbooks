@@ -1,0 +1,33 @@
+---
+- name: Upload qkview file(s) to iHealth
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+  - name: 'username'
+    default: 'root@localhost.localdomain'
+    prompt: 'iHealth username'
+    private: no
+  - name: 'password'
+    default: 'default'
+    prompt: 'iHealth passwd'
+    private: yes
+
+  tasks:
+  - name: List qkview(s) in iHealth
+    uri:
+      url: 'https://ihealth-api.f5.com:443/qkview-analyzer/api/qkviews?limit=0&offset=0&include_hidden=false&include_processing=true&include_failed=true&include_sample=true'
+      method: GET
+      return_content: true
+      user: '{{ username }}'
+      password: '{{ password }}'
+      force_basic_auth: true
+      status_code: 200
+      validate_certs: no
+      headers:
+        Accept: '*/*'
+    register: http_response
+    delegate_to: localhost
+
+  - debug: msg='{{ http_response }}'
