@@ -1,0 +1,10 @@
+curl -X POST --header 'Content-Type: multipart/form-data' --header 'Accept: application/xml' --header 'User-Agent: test' 'https://ihealth-api.f5.com:443/qkview-analyzer/api/qkviews?share_with_case_owner=false&visible_in_gui=false'
+
+
+https://ihealth-api.f5.com:443/qkview-analyzer/api/qkviews?share_with_case_owner=false&visible_in_gui=false
+
+
+curl -X POST --header 'Content-Type: multipart/form-data' --header 'Accept: */*' --header 'User-Agent: test' 'https://ihealth-api.f5.com:443/qkview-analyzer/api/qkviews?f5_support_case=test&share_with_case_owner=true&visible_in_gui=true'
+
+
+https://ihealth-api.f5.com:443/qkview-analyzer/api/qkviews?f5_support_case=test&share_with_case_owner=true&visible_in_gui=true

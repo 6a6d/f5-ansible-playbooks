@@ -1,0 +1,84 @@
+---
+- name: Create a forward proxy
+  hosts: new-bigip
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+  - name: "username"
+    default: "admin"
+    prompt: "username"
+    private: no
+  - name: "password"
+    default: "admin"
+    prompt: "passwd"
+    private: yes
+
+  tasks:
+    - name: Create a network tunnel
+      bigip_tunnel:
+        name: "http-explicit-proxy-tunnel"
+        profile: tcp-forward
+        mtu: 0
+        use_pmtu: yes
+        tos: preserve
+        auto_last_hop: default
+        mode: bidirectional
+        state: present
+        provider: "{{ login_info }}"
+      delegate_to: localhost
+
+    - name: Create an HTTP profile
+      bigip_profile_http:
+          name: "http-explicit-proxy-profile"
+          proxy_type: explicit
+          dns_resolver: google-dns
+          # need ability to assign network tunnel
+          state: present
+          provider: "{{ login_info }}"
+      delegate_to: localhost
+
+    - name: Create an Explicit Proxy Virtual Server
+      bigip_virtual_server:
+        name: "explicit-proxy-vs"
+        type: standard
+        destination: "10.2.2.254"
+        port: "8080"
+        ip_protocol: tcp
+        profiles:
+          - http-explicit-proxy-profile
+          - name: f5-tcp-progressive
+            context: client-side
+          - name: f5-tcp-wan
+            context: server-side
+        enabled_vlans: "internal"
+        snat: "Automap"
+        state: present
+        provider: "{{ login_info }}"
+      delegate_to: localhost
+
+    # Added in Ansible 2.8
+    #- name: Create a Fast L4 Profile
+    #  bigip_profile_fastl4:
+    #    name: "fast-l4-explicit-proxy"
+    #    loose_close: yes
+    #    loose_initialization: yes
+    #    state: present
+    #    provider: "{{ login_info }}"
+    #  delegate_to: localhost
+
+    - name: Create a Wild Card Virtual Server
+      bigip_virtual_server:
+        name: "explicit-proxy-wildcard-vs"
+        type: forwarding-ip
+        source: "0.0.0.0"
+        destination: "0.0.0"
+        port: 0
+        ip_protocol: tcp
+        profiles:
+          - fast-l4-explicit-proxy
+        enabled_vlans: "http-explicit-proxy-tunnel"
+        snat: "Automap"
+        state: present
+        provider: "{{ login_info }}"
+      delegate_to: localhost

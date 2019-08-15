@@ -1,0 +1,36 @@
+---
+- name: Upload qkview file(s) to iHealth
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+  - name: 'ihealth-username'
+    default: 'root@localhost.localdomain'
+    prompt: 'iHealth username'
+    private: no
+  - name: 'ihealth-password'
+    default: 'default'
+    prompt: 'iHealth passwd'
+    private: yes
+
+
+  tasks:
+  - name: Uploading qkview to iHealth
+    uri:
+      url: https://ihealth-api.f5.com:443/qkview-analyzer/api/qkviews?share_with_case_owner=true&visible_in_gui=true
+      src: '192.168.1.147.qkview'
+      method: POST
+      return_content: true
+      user: '{{ ihealth-username }}'
+      password: '{{ ihealth-password }}'
+      force_basic_auth: true
+      status_code: 201
+      validate_certs: no
+      headers:
+        User-Agent: Ansible
+        Content-Type: multipart/form-data
+        Accept: application/xml
+    delegate_to: localhost
+
+  - debug: msg='{{ http_response }}'

@@ -107,4 +107,13 @@ python*
 hosts
 
 # VS Code
-settings.json
+.vscode/
+
+# tmp
+tmp/
+
+# rpms
+*.rpm
+
+# Ansible roles
+roles/

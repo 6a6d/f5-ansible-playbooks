@@ -1,0 +1,7 @@
+- name: '{{ host }} setting hostname'
+  bigip_hostname:
+    hostname: "{{ host }}.lab.local"
+    provider: "{{ login_info }}"
+  delegate_to: localhost
+  tags:
+    - host

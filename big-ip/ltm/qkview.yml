@@ -1,0 +1,25 @@
+---
+- name: Grab qkviews from BIG-IPs
+  hosts: bigips
+  connection: local
+
+  vars_prompt:
+  - name: 'username'
+    default: 'admin'
+    prompt: 'username'
+    private: no
+  - name: 'password'
+    default: 'admin'
+    prompt: 'passwd'
+    private: yes
+
+  tasks:
+  - name: fetching qkview from '{{ inventory_hostname }}'
+    bigip_qkview:
+      asm_request_log: yes
+      exclude:
+        - audit
+        - secure
+      dest: /tmp/{{ inventory_hostname }}.qkview
+      provider: '{{ login_info }}'
+    delegate_to: localhost

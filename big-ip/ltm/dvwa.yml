@@ -1,0 +1,58 @@
+---
+- name: Create the dvwa VIP, pool, pool members and nodes
+  hosts: new-bigip
+  connection: local
+
+  vars_prompt:
+  - name: "username"
+    default: "admin"
+    prompt: "username"
+    private: no
+  - name: "password"
+    default: "admin"
+    prompt: "passwd"
+    private: yes
+
+  tasks:
+      - name: Create the dvwa pool
+        bigip_pool:
+            name: "dvwa_pool"
+            slow_ramp_time: "120"
+            lb_method: least-connections-node
+            monitor_type: and_list
+            monitors: http
+            provider: "{{ login_info }}"
+        delegate_to: localhost
+
+      - name: Create the dvwa node
+        bigip_node:
+            host: "192.168.1.243"
+            name: "dvwa_node3"
+            provider: "{{ login_info }}"
+        delegate_to: localhost
+
+      - name: Add the dvwa node to pool
+        bigip_pool_member:
+            description: "dvwa_pool"
+            host: "{{ item.host }}"
+            name: "{{ item.name }}"
+            pool: "dvwa_pool"
+            port: "80"
+            provider: "{{ login_info }}"
+        delegate_to: localhost
+        with_items:
+            - host: "192.168.1.243"
+              name: "dvwa_node3"
+
+      - name: Create the dvwa VIP
+        bigip_virtual_server:
+            description: "dvwa_vs"
+            destination: "192.168.1.252"
+            name: "dvwa_vs"
+            pool: "dvwa_pool"
+            port: "80"
+            snat: "Automap"
+            all_profiles:
+                - "http"
+            provider: "{{ login_info }}"
+        delegate_to: localhost

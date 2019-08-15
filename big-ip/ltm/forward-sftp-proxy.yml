@@ -1,0 +1,54 @@
+---
+- name: Create a forward proxy
+  hosts: new-bigip
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+  - name: "username"
+    default: "admin"
+    prompt: "username"
+    private: no
+  - name: "password"
+    default: "admin"
+    prompt: "passwd"
+    private: yes
+
+  tasks:
+    - name: Create a Network Tunnel
+      bigip_tunnel:
+        name: "tcp-explicit-proxy-tunnel"
+        profile: tcp-forward
+        mtu: 0
+        use_pmtu: yes
+        tos: preserve
+        auto_last_hop: default
+        mode: bidirectional
+        state: present
+        provider: "{{ login_info }}"
+      delegate_to: localhost
+
+    # Added in Ansible 2.8
+    #- name: Create a Fast L4 Profile
+    #  bigip_profile_fastl4:
+    #    name: "fast-l4-explicit-proxy"
+    #    loose_close: yes
+    #    loose_initialization: yes
+    #    state: present
+    #    provider: "{{ login_info }}"
+    #  delegate_to: localhost
+
+    - name: Create an Explicit SFTP Proxy Virtual Server
+      bigip_virtual_server:
+        name: "explicit-sftp-vs"
+        type: forwarding-ip
+        destination: "0.0.0.0"
+        port: "22"
+        ip_protocol: tcp
+        profiles:
+          - fast-l4-explicit-proxy
+        enabled_vlans: "internal"
+        snat: "Automap"
+        state: present
+        provider: "{{ login_info }}"
+      delegate_to: localhost

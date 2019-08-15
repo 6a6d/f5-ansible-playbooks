@@ -1,0 +1,13 @@
+---
+- name: Remove license from BIG-IP
+  hosts: all
+  connection: local
+
+  tasks:
+    - name: Remove the license from the system
+      bigip_license:
+        server: "{{ inventory_hostname }}"
+        user: "{{ username }}"
+        password: "{{ password }}"
+        state: "absent"
+      delegate_to: localhost

@@ -1,0 +1,39 @@
+- name: 'Create Internal VLAN on {{ host }}'
+  bigip_vlan:
+    name: "internal"
+    untagged_interfaces: "1.2"
+    provider: "{{ login_info }}"
+  delegate_to: localhost
+  tags:
+    - ips
+
+- name: 'Create Internal Self IP on {{ host }}'
+  bigip_selfip:
+    vlan: "internal"
+    name: "internal"
+    address: "{{ internal_self }}"
+    netmask: "255.255.255.0"
+    provider: "{{ login_info }}"
+  delegate_to: localhost
+  tags:
+    - ips
+
+- name: 'Create External VLAN on {{ host }}'
+  bigip_vlan:
+    name: "external"
+    untagged_interfaces: "1.1"
+    provider: "{{ login_info }}"
+  delegate_to: localhost
+  tags:
+    - ips
+
+- name: 'Create External Self IP on {{ host }}'
+  bigip_selfip:
+    name: "external"
+    vlan: "external"
+    address: "{{ external_self }}"
+    netmask: "255.255.255.0"
+    provider: "{{ login_info }}"
+  delegate_to: localhost
+  tags:
+    - ips

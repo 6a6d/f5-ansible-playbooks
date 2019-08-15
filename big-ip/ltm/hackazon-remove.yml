@@ -1,0 +1,59 @@
+---
+- name: Remove the Hackazon VIP, pool, pool members and nodes
+  hosts: ltm1
+  connection: local
+
+  vars_prompt:
+  - name: "username"
+    default: "admin"
+    prompt: "username"
+    private: no
+  - name: "password"
+    default: "admin"
+    prompt: "passwd"
+    private: yes
+
+  tasks:
+      - name: Remove the Hackazon VIP
+        bigip_virtual_server:
+            description: "hackazon_vs"
+            destination: "10.1.10.200"
+            name: "hackazon_vs"
+            pool: "hackazon_pool"
+            port: "80"
+            snat: "Automap"
+            all_profiles:
+                - "http"
+            provider: "{{ login_info }}"
+            state: "absent"
+        delegate_to: localhost
+
+      - name: Remove the Hackazon pool
+        bigip_pool:
+            name: "hackazon_pool"
+            slow_ramp_time: "120"
+            lb_method: least-connections-node
+            monitor_type: and_list
+            monitors: http
+            provider: "{{ login_info }}"
+            state: "absent"
+        delegate_to: localhost
+
+      - name: Remove the Hackazon node 1
+        bigip_node:
+            host: "10.1.20.200"
+            name: "hackazon_node1"
+            provider: "{{ login_info }}"
+            state: "absent"
+        delegate_to: localhost
+
+      - name: Remove the Hackazon node 2
+        bigip_node:
+            host: "10.1.20.201"
+            name: "hackazon_node2"
+            provider: "{{ login_info }}"
+            state: "absent"
+        delegate_to: localhost
+
+
+
