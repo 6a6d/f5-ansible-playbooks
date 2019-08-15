@@ -5,11 +5,11 @@
   gather_facts: false
 
   vars_prompt:
-  - name: 'ihealth-username'
+  - name: 'user_id'
     default: 'root@localhost.localdomain'
     prompt: 'iHealth username'
     private: no
-  - name: 'ihealth-password'
+  - name: 'user_secret'
     default: 'default'
     prompt: 'iHealth passwd'
     private: yes
@@ -18,19 +18,18 @@
   tasks:
   - name: Uploading qkview to iHealth
     uri:
-      url: https://ihealth-api.f5.com:443/qkview-analyzer/api/qkviews?share_with_case_owner=true&visible_in_gui=true
+      url: https://api.f5.com/auth/pub/sso/login/ihealth-api
       src: 'big-ip.qkview'
       method: POST
       return_content: true
-      user: '{{ ihealth-username }}'
-      password: '{{ ihealth-password }}'
+      user: '{{ user_id }}'
+      password: '{{ user_secret }}'
       force_basic_auth: true
       status_code: 201
       validate_certs: no
       headers:
-        User-Agent: Ansible
-        Content-Type: multipart/form-data
-        Accept: application/xml
+        User-Agent: FSE_QKapi
+        Content-Type: application/json
     delegate_to: localhost
 
   - debug: msg='{{ http_response }}'
