@@ -1,6 +1,6 @@
 ---
 - name: Run a command on BIG-IP(s)
-  hosts: bigip
+  hosts: gtm
   connection: local
   gather_facts: false
 

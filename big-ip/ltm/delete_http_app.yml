@@ -1,0 +1,33 @@
+---
+- name: Delete application
+  hosts: bigip
+  connection: local
+
+  tasks:
+    - name: Delete node 1 for {{ appName }}
+      bigip_node:
+        name: "{{ appName }}_node1"
+        provider: "{{ login_info }}"
+        state: "absent"
+      delegate_to: localhost
+
+    - name: Delete node 2 for {{ appName }}
+      bigip_node:
+        name: "{{ appName }}_node2"
+        provider: "{{ login_info }}"
+        state: "absent"
+      delegate_to: localhost
+
+    - name: Delete the {{ appName }} pool
+      bigip_pool:
+        name: "{{ appName }}_pool"
+        provider: "{{ login_info }}"
+        state: "absent"
+      delegate_to: localhost
+
+    - name: Delete the {{ appName }} VIP
+      bigip_virtual_server:
+          name: "{{ appName }}_vs"
+          provider: "{{ login_info }}"
+          state: "absent"
+      delegate_to: localhost

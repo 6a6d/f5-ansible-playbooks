@@ -1,0 +1,13 @@
+---
+- name: Disable a node
+  hosts: bigip
+  connection: local
+
+  tasks:
+      - name: Disable a node
+        bigip_node:
+          provider: "{{ login_info }}"
+          partition: "Common"
+          name: "{{ nodeName }}"
+          state: "offline"
+        delegate_to: localhost
