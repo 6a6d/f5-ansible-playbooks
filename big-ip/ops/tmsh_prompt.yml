@@ -1,8 +1,22 @@
 ---
 - name: Run a command on BIG-IP(s)
-  hosts: bigip
+  hosts: gtms
   connection: local
   gather_facts: false
+
+  vars_prompt:
+  - name: 'username'
+    default: 'admin'
+    prompt: 'BIG-IP username'
+    private: no
+  - name: 'password'
+    default: 'admin'
+    prompt: 'BIG-IP passwd'
+    private: yes
+  - name: 'tmsh_command'
+    default: 'show sys version'
+    prompt: 'TMSH command'
+    private: no
 
   tasks:
   - name: Running '{{ tmsh_command }}' on '{{ inventory_hostname }}'
