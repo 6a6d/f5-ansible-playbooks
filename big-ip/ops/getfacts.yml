@@ -1,0 +1,27 @@
+---
+- name: Get facts from a BIG-IP(s)
+  hosts: gtms
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+  - name: 'username'
+    default: 'admin'
+    prompt: 'BIG-IP username'
+    private: no
+  - name: 'password'
+    default: 'admin'
+    prompt: 'BIG-IP passwd'
+    private: yes
+
+  tasks:
+  - name: Getting facts '{{ tmsh_command }}' on '{{ inventory_hostname }}'
+    bigip_command:
+      provider: '{{ login_info }}'
+      commands:
+        - '{{ tmsh_command }}'
+    delegate_to: localhost
+    register: tmsh
+
+  - debug:
+      var: tmsh.stdout_lines
