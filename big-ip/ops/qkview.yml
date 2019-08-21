@@ -1,6 +1,6 @@
 ---
 - name: Create and download a qkview from a BIG-IP(s)
-  hosts: '{{ bigips }}'
+  hosts: all
   connection: local
   gather_facts: false
 
