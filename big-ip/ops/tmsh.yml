@@ -1,6 +1,6 @@
 ---
 - name: Run a command on BIG-IP(s)
-  hosts: bigip
+  hosts: f5
   connection: local
   gather_facts: false
 
