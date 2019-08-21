@@ -16,6 +16,6 @@
         - audit
         - secure
       filename: "{{ inventory_hostname + '.qkview' }}"
-      dest: ./files/{{ date + inventory_hostname + '.qkview' }}
+      dest: ./{{ date + inventory_hostname + '.qkview' }}
       force: yes
     delegate_to: localhost
