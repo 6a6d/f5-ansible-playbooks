@@ -1,0 +1,59 @@
+---
+- name: Create new HTTP application
+  hosts: bigip
+  connection: local
+
+  tasks:
+      - name: Create the {{ appName }} pool
+        bigip_pool:
+            name: "{{ appName }}_pool"
+            slow_ramp_time: "120"
+            lb_method: least-connections-node
+            monitor_type: and_list
+            monitors: http
+            provider: "{{ login_info }}"
+        delegate_to: localhost
+
+      - name: Create node 1 for {{ appName }}
+        bigip_node:
+            host: "{{ node1_ip }}"
+            name: "{{ appName }}_node1"
+            provider: "{{ login_info }}"
+            state: "enabled"
+        delegate_to: localhost
+
+      - name: Create node 2 for {{ appName }}
+        bigip_node:
+            host: "{{ node2_ip }}"
+            name: "{{ appName }}_node2"
+            provider: "{{ login_info }}"
+            state: "enabled"
+        delegate_to: localhost
+
+      - name: Add nodes to pool
+        bigip_pool_member:
+            description: "{{ appName }}_pool"
+            host: "{{ item.host }}"
+            name: "{{ item.name }}"
+            pool: "{{ appName }}_pool"
+            port: "80"
+            provider: "{{ login_info }}"
+        delegate_to: localhost
+        with_items:
+            - host: "{{ node1_ip }}"
+              name: "{{ appName }}_node1"
+            - host: "{{ node2_ip }}"
+              name: "{{ appName }}_node2"
+
+      - name: Create the {{ appName }} VIP
+        bigip_virtual_server:
+            description: "{{ appName }}_vs"
+            destination: "{{ vip }}"
+            name: "{{ appName }}_vs"
+            pool: "{{ appName }}_pool"
+            port: "80"
+            snat: "Automap"
+            all_profiles:
+                - "http"
+            provider: "{{ login_info }}"
+        delegate_to: localhost
