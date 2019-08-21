@@ -1,6 +1,6 @@
 ---
 - name: Run a command on BIG-IP(s)
-  hosts: gtm
+  hosts: '{{ f5_hosts }}'
   connection: local
   gather_facts: false
 
