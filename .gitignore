@@ -114,3 +114,6 @@ tmp/
 
 # rpms
 *.rpm
+
+# Python venv
+ansible-env*

@@ -1,6 +1,6 @@
 ---
 - name: Install F5 Automation Toolchain
-  hosts: new-bigips
+  hosts: azure
   connection: local
   gather_facts: false
 

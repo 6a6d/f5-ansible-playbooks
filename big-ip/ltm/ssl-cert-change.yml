@@ -1,0 +1,27 @@
+---
+- name: Create the Hackazon VIP, pool, pool members and nodes
+  hosts: all
+  connection: local
+
+  vars_prompt:
+  - name: "username"
+    default: "admin"
+    prompt: "username"
+    private: no
+  - name: "password"
+    default: "admin"
+    prompt: "passwd"
+    private: yes
+
+  tasks:
+      - name: Change SSL cert for {{ VIP }} on {{ inventory_hostname }}
+        bigip_virtual_server:
+          description: "{{ VIP_name }}"
+          destination: "{{ VIP_ip }}"
+          name: "{{ VIP_name }}_vs"
+          profiles:
+            - http
+            - name: new-cert
+              context: client-side
+          provider: "{{ login_info }}"
+        delegate_to: localhost

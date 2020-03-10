@@ -1,6 +1,6 @@
 ---
 - name: Create new HTTP application
-  hosts: bigip
+  hosts: '{{ f5_hosts }}'
   connection: local
 
   tasks:

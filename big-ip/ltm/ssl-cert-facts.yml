@@ -1,0 +1,28 @@
+---
+- name: Gather facts for ssl-certs
+  hosts: bigips
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+  - name: "username"
+    default: "admin"
+    prompt: "username"
+    private: no
+  - name: "password"
+    default: "admin"
+    prompt: "passwd"
+    private: yes
+
+  tasks:
+      - name: Get ssl-certs on {{ inventory_hostname }}
+        bigip_device_info:
+          gather_subset:
+            - ssl-certs
+          provider: "{{ login_info }}"
+        delegate_to: localhost
+        register: facts_result
+
+      - name: Display the results
+        debug:
+          var: facts_result

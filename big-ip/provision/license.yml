@@ -1,6 +1,6 @@
 ---
 - name: License a BIG-IP
-  hosts: new-bigip
+  hosts: bigips
   connection: local
   gather_facts: false
 
